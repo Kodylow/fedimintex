@@ -38,7 +38,7 @@ defmodule Fedimintex do
   @spec get(t(), String.t()) :: http_response()
   def get(%Fedimintex{} = client, endpoint) do
     headers = [{"Authorization", "Bearer #{client.password}"}]
-
+    IO.inspect("headers: #{headers}", label: "Headers")
     HTTPoison.get("#{client.base_url}#{endpoint}", headers)
     |> handle_response(200)
   end
@@ -53,6 +53,7 @@ defmodule Fedimintex do
       {"Authorization", "Bearer #{client.password}"},
       {"Content-Type", "application/json"}
     ]
+    IO.inspect("headers: #{headers}", label: "Headers")
 
     HTTPoison.post("#{client.base_url}#{endpoint}", Jason.encode!(body), headers)
     |> handle_response(200)
