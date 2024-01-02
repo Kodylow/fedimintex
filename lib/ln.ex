@@ -1,6 +1,6 @@
 # ln.ex
 defmodule Fedimintex.Ln do
-  import Fedimintex, only: [post: 3, get: 2]
+  import Fedimintex.Client, only: [post: 3, get: 2]
 
   @type ln_invoice_request :: %{
           amount_msat: non_neg_integer(),
@@ -13,7 +13,7 @@ defmodule Fedimintex.Ln do
           invoice: String.t()
         }
 
-  @spec create_invoice(Fedimintex.t(), ln_invoice_request()) ::
+  @spec create_invoice(Fedimintex.Client.t(), ln_invoice_request()) ::
           {:ok, ln_invoice_response()} | {:error, String.t()}
   def create_invoice(client, request) do
     post(client, "/ln/invoice", request)
@@ -23,7 +23,7 @@ defmodule Fedimintex.Ln do
           operation_id: String.t()
         }
 
-  @spec await_invoice(Fedimintex.t(), await_invoice_request()) ::
+  @spec await_invoice(Fedimintex.Client.t(), await_invoice_request()) ::
           {:ok, ln_invoice_response()} | {:error, String.t()}
   def await_invoice(client, request) do
     post(client, "/ln/await-invoice", request)
@@ -43,7 +43,7 @@ defmodule Fedimintex.Ln do
           fee: non_neg_integer()
         }
 
-  @spec pay(Fedimintex.t(), ln_pay_request()) :: {:ok, ln_pay_response()} | {:error, String.t()}
+  @spec pay(Fedimintex.Client.t(), ln_pay_request()) :: {:ok, ln_pay_response()} | {:error, String.t()}
   def pay(client, request) do
     post(client, "/ln/pay", request)
   end
@@ -52,7 +52,7 @@ defmodule Fedimintex.Ln do
           operation_id: String.t()
         }
 
-  @spec await_pay(Fedimintex.t(), await_ln_pay_request()) ::
+  @spec await_pay(Fedimintex.Client.t(), await_ln_pay_request()) ::
           {:ok, ln_pay_response()} | {:error, String.t()}
   def await_pay(client, request) do
     post(client, "/ln/await-pay", request)
@@ -63,7 +63,7 @@ defmodule Fedimintex.Ln do
           active: boolean()
         }
 
-  @spec list_gateways(Fedimintex.t()) :: {:ok, [gateway()]} | {:error, String.t()}
+  @spec list_gateways(Fedimintex.Client.t()) :: {:ok, [gateway()]} | {:error, String.t()}
   def list_gateways(client) do
     get(client, "/ln/list-gateways")
   end
@@ -72,7 +72,7 @@ defmodule Fedimintex.Ln do
           gateway_id: String.t()
         }
 
-  @spec switch_gateway(Fedimintex.t(), switch_gateway_request()) ::
+  @spec switch_gateway(Fedimintex.Client.t(), switch_gateway_request()) ::
           {:ok, String.t()} | {:error, String.t()}
   def switch_gateway(client, request) do
     post(client, "/ln/switch-gateway", request)

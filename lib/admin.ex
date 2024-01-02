@@ -1,21 +1,21 @@
 defmodule Fedimintex.Admin do
-  import Fedimintex, only: [post: 3, get: 2]
+  import Fedimintex.Client, only: [post: 3, get: 2]
 
   @type tiered :: %{required(integer()) => any()}
   @type tiered_summary :: %{required(:tiered) => tiered()}
   @type info_response :: %{
-          required(:federation_id) => String.t(),
-          required(:network) => String.t(),
-          required(:meta) => %{required(String.t()) => String.t()},
-          required(:total_amount_msat) => integer(),
-          required(:total_num_notes) => integer(),
-          required(:denominations_msat) => tiered_summary()
-        }
+    required(:federation_id) => String.t(),
+    required(:network) => String.t(),
+    required(:meta) => %{required(String.t()) => String.t()},
+    required(:total_amount_msat) => integer(),
+    required(:total_num_notes) => integer(),
+    required(:denominations_msat) => tiered_summary()
+  }
 
   @doc """
   Fetches wallet (mint and onchain) information including holdings, tiers, and federation metadata.
   """
-  @spec info(Fedimintex.t()) :: {:ok, info_response()} | {:error, String.t()}
+  @spec info(Fedimintex.Client.t()) :: {:ok, info_response()} | {:error, String.t()}
   def info(client) do
     get(client, "/admin/info")
   end
@@ -34,7 +34,7 @@ defmodule Fedimintex.Admin do
   @doc """
   Discovers the highest common version of the mint and api
   """
-  @spec discover_version(Fedimintex.t()) :: {:ok, version_response()} | {:error, String.t()}
+  @spec discover_version(Fedimintex.Client.t()) :: {:ok, version_response()} | {:error, String.t()}
   def discover_version(client) do
     get(client, "/admin/discover-version")
   end
@@ -52,7 +52,7 @@ defmodule Fedimintex.Admin do
   @doc """
   Lists all ongoing operations
   """
-  @spec list_operations(Fedimintex.t(), list_operations_request()) ::
+  @spec list_operations(Fedimintex.Client.t(), list_operations_request()) ::
           {:ok, list_operations_response()} | {:error, String.t()}
   def list_operations(client, request) do
     post(client, "/admin/list-operations", request)
@@ -63,7 +63,7 @@ defmodule Fedimintex.Admin do
   @doc """
   Get configuration information
   """
-  @spec config(Fedimintex.t()) :: {:ok, config_response()} | {:error, String.t()}
+  @spec config(Fedimintex.Client.t()) :: {:ok, config_response()} | {:error, String.t()}
   def config(client) do
     get(client, "/admin/config")
   end
