@@ -4,13 +4,13 @@ defmodule Fedimintex.Admin do
   @type tiered :: %{required(integer()) => any()}
   @type tiered_summary :: %{required(:tiered) => tiered()}
   @type info_response :: %{
-    required(:federation_id) => String.t(),
-    required(:network) => String.t(),
-    required(:meta) => %{required(String.t()) => String.t()},
-    required(:total_amount_msat) => integer(),
-    required(:total_num_notes) => integer(),
-    required(:denominations_msat) => tiered_summary()
-  }
+          required(:federation_id) => String.t(),
+          required(:network) => String.t(),
+          required(:meta) => %{required(String.t()) => String.t()},
+          required(:total_amount_msat) => integer(),
+          required(:total_num_notes) => integer(),
+          required(:denominations_msat) => tiered_summary()
+        }
 
   @doc """
   Fetches wallet (mint and onchain) information including holdings, tiers, and federation metadata.
@@ -34,7 +34,8 @@ defmodule Fedimintex.Admin do
   @doc """
   Discovers the highest common version of the mint and api
   """
-  @spec discover_version(Fedimintex.Client.t()) :: {:ok, version_response()} | {:error, String.t()}
+  @spec discover_version(Fedimintex.Client.t()) ::
+          {:ok, version_response()} | {:error, String.t()}
   def discover_version(client) do
     get(client, "/admin/discover-version")
   end
