@@ -1,6 +1,6 @@
 # mint.ex
 defmodule Fedimintex.Mint do
-  import Fedimintex.Client, only: [post: 3]
+  alias Fedimintex.Client
 
   @type federation_id_prefix :: {integer, integer, integer, integer}
   @type tiered_multi(t) :: %{integer => [t]}
@@ -20,43 +20,43 @@ defmodule Fedimintex.Mint do
   @type reissue_request :: %{notes: oob_notes}
   @type reissue_response :: %{amount_msat: integer}
 
-  @spec reissue(Fedimintex.Client.t(), reissue_request()) ::
+  @spec reissue(Client.t(), reissue_request()) ::
           {:ok, reissue_response()} | {:error, String.t()}
   def reissue(client, request) do
-    post(client, "/mint/reissue", request)
+    Client.post(client, "/mint/reissue", request)
   end
 
   @type spend_request :: %{amount_msat: integer, allow_overpay: boolean, timeout: integer}
   @type spend_response :: %{operation: String.t(), notes: oob_notes}
 
-  @spec spend(Fedimintex.Client.t(), spend_request()) :: {:ok, spend_response()} | {:error, String.t()}
+  @spec spend(Client.t(), spend_request()) :: {:ok, spend_response()} | {:error, String.t()}
   def spend(client, request) do
-    post(client, "/mint/spend", request)
+    Client.post(client, "/mint/spend", request)
   end
 
   @type validate_request :: %{notes: oob_notes}
   @type validate_response :: %{amount_msat: integer}
 
-  @spec validate(Fedimintex.Client.t(), validate_request()) ::
+  @spec validate(Client.t(), validate_request()) ::
           {:ok, validate_response()} | {:error, String.t()}
   def validate(client, request) do
-    post(client, "/mint/validate", request)
+    Client.post(client, "/mint/validate", request)
   end
 
   @type split_request :: %{notes: oob_notes}
   @type split_response :: %{notes: %{integer => oob_notes}}
 
-  @spec split(Fedimintex.Client.t(), split_request()) :: {:ok, split_response()} | {:error, String.t()}
+  @spec split(Client.t(), split_request()) :: {:ok, split_response()} | {:error, String.t()}
   def split(client, request) do
-    post(client, "/mint/split", request)
+    Client.post(client, "/mint/split", request)
   end
 
   @type combine_request :: %{notes: [oob_notes]}
   @type combine_response :: %{notes: oob_notes}
 
-  @spec combine(Fedimintex.Client.t(), combine_request()) ::
+  @spec combine(Client.t(), combine_request()) ::
           {:ok, combine_response()} | {:error, String.t()}
   def combine(client, request) do
-    post(client, "/mint/combine", request)
+    Client.post(client, "/mint/combine", request)
   end
 end
